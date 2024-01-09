@@ -1,0 +1,11 @@
+﻿global using DesigningApis.Data;
+global using DesigningApis.Data.Entities;
+global using DesigningApis.Constraints;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Routing;
+global using Microsoft.EntityFrameworkCore;
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;
