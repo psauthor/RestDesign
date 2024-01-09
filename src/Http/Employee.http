@@ -1,0 +1,35 @@
+GET {{$projectUrl}}/api/employees
+Accept: application/json
+
+###
+
+GET {{$projectUrl}}/api/employees/1011
+Accept: application/json
+
+### 
+
+POST {{$projectUrl}}/api/employees
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Shawn Wildermuth",
+  "billingRate": 350
+}
+
+###
+
+PUT {{$projectUrl}}/api/employees/1021
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 1021,
+  "name": "Shawn T. Wildermuth",
+  "billingRate": 375
+}
+
+###
+
+DELETE {{$projectUrl}}/api/employees/1021
+Accept: application/json

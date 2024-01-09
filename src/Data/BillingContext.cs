@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace DesigningApis.Data;
+namespace RestDesign.Data;
 
 public class BillingContext : DbContext
 {
@@ -11,7 +11,7 @@ public class BillingContext : DbContext
 
   public DbSet<Customer> Customers => Set<Customer>();
   public DbSet<Ticket> Tickets => Set<Ticket>();
-  public DbSet<Employee> Employee => Set<Employee>();
+  public DbSet<Employee> Employees => Set<Employee>();
   public DbSet<Project> Projects => Set<Project>();
 
   protected override void OnModelCreating(ModelBuilder bldr)

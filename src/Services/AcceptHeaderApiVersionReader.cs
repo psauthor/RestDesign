@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace DesigningApis.Services
+namespace RestDesign.Services
 {
   // Adapted from https://github.com/Microsoft/aspnet-api-versioning/issues/42
   public class AcceptHeaderApiVersionReader : IApiVersionReader

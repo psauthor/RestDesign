@@ -1,6 +1,6 @@
-﻿global using DesigningApis.Data;
-global using DesigningApis.Data.Entities;
-global using DesigningApis.Constraints;
+﻿global using RestDesign.Data;
+global using RestDesign.Data.Entities;
+global using RestDesign.Constraints;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Routing;
 global using Microsoft.EntityFrameworkCore;

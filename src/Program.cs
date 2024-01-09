@@ -1,15 +1,13 @@
-﻿using DesigningApis.Data;
-using DesigningApis;
-using WilderMinds.MinimalApiDiscovery;
+﻿using WilderMinds.MinimalApiDiscovery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using DesigningApis.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Asp.Versioning;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using System.Reflection;
+using RestDesign.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

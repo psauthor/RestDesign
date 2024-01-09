@@ -1,6 +1,6 @@
 ﻿using Bogus;
 
-namespace DesigningApis.Data;
+namespace RestDesign.Data;
 
 public static class Fakers
 {

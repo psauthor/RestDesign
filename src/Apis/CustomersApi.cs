@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using WilderMinds.MinimalApiDiscovery;
 
-namespace DesigningApis.Apis;
+namespace RestDesign.Apis;
 
 public class CustomersApi : IApi
 {

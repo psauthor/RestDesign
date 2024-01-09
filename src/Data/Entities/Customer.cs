@@ -1,4 +1,4 @@
-﻿namespace DesigningApis.Data.Entities;
+﻿namespace RestDesign.Data.Entities;
 
 public class Customer
 {
