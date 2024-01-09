@@ -3,6 +3,11 @@ Accept: application/json
 
 ###
 
+GET {{$projectUrl}}/api/customers?includeProjects=true
+Accept: application/json
+
+###
+
 GET {{$projectUrl}}/api/customers/25433
 Accept: application/json
 
@@ -21,7 +26,7 @@ Accept: application/json
   "addressLine2": "Suite 500",
   "addressLine3": null,
   "city": "Atlanta",
-  "stateProvince": "Georgia",
+  "stateProvince": "GA",
   "postalCode": "30303-3333",
   "country": "USA"
 }

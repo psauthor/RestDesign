@@ -27,11 +27,23 @@ public class CustomersApi : IApi
   }
 
   // Get All
-  public static async Task<IResult> GetAll(BillingContext ctx)
+  public static async Task<IResult> GetAll(BillingContext ctx, bool includeProjects = false)
   {
-    var result = await ctx.Customers
-      .OrderBy(c => c.CompanyName)
-      .ToListAsync();
+    List<Customer> result;
+
+    if (includeProjects)
+    {
+      result = await ctx.Customers
+        .Include(c => c.Projects)
+        .OrderBy(c => c.CompanyName)
+        .ToListAsync();
+    }
+    else
+    {
+      result = await ctx.Customers
+        .OrderBy(c => c.CompanyName)
+        .ToListAsync();
+    }
 
     return Results.Ok(result);
   }

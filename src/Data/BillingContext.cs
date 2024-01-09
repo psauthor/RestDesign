@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RestDesign.Data.Fakers;
 
 namespace RestDesign.Data;
 
@@ -16,24 +17,29 @@ public class BillingContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder bldr)
   {
+    var customers = CustomerFaker.Generate();
+    var employees = EmployeeFaker.Generate();
+    var projects = ProjectFaker.Generate();
+    var tickets = TicketFaker.Generate();
+
     bldr.Entity<Customer>()
       .HasData(
-        Fakers.CustomerFaker.Generate(100)
+        customers
       );
 
     bldr.Entity<Employee>()
       .HasData(
-        Fakers.EmployeeFaker.Generate(10)
+        employees
       );
 
     bldr.Entity<Project>()
       .HasData(
-        Fakers.ProjectFaker.Generate(25)
+        projects
         );
 
     bldr.Entity<Ticket>()
       .HasData(
-        Fakers.TicketFaker.Generate(100)
+        tickets
         );
   }
 

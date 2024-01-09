@@ -1,0 +1,38 @@
+GET {{$projectUrl}}/api/customers/9/projects
+Accept: application/json
+
+###
+
+GET {{$projectUrl}}/api/customers/9/projects/14
+Accept: application/json
+
+### 
+
+POST {{$projectUrl}}/api/customers/9/projects
+Content-Type: application/json
+Accept: application/json
+
+{
+  "projectName": "eleanore.org",
+  "startDate": "2023-02-14T07:08:55.0568344-05:00",
+  "endDate": null,
+  "customerId": 6
+}
+
+###
+
+PUT {{$projectUrl}}/api/customers/9/projects/26
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 26,
+  "projectName": "A new project",
+  "startDate": "2023-02-14T07:08:55.0568344-05:00",
+  "endDate": null,
+  "customerId": 9
+}
+###
+
+DELETE {{$projectUrl}}/api/customers/9/projects/26
+Accept: application/json

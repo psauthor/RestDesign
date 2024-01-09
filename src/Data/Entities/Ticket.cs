@@ -3,7 +3,7 @@
 public class Ticket
 {
   public int Id { get; set; }
-  public Employee? Employee { get; set; }
+  public required Employee? Employee { get; set; }
   public int EmployeeId { get; set; }
   public double Hours { get; set; }
   public double BillingRate { get; set; }
