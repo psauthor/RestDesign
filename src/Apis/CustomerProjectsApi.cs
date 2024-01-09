@@ -8,7 +8,7 @@ using WilderMinds.MinimalApiDiscovery;
 
 namespace RestDesign.Apis;
 
-public class ProjectsApi : IApi
+public class CustomerProjectsApi : IApi
 {
   public void Register(IEndpointRouteBuilder builder)
   {
@@ -16,7 +16,7 @@ public class ProjectsApi : IApi
       .AddFluentValidationAutoValidation();
 
     group.MapGet("", GetAll);
-    group.MapGet("{id:int}", GetOne).WithName("GetOneProject");
+    group.MapGet("{id:int}", GetOne).WithName("GetOneCustomerProject");
     group.MapPost("", Post);
     group.MapPut("{id:int}", Update);
     group.MapDelete("{id:int}", Delete);
@@ -60,7 +60,7 @@ public class ProjectsApi : IApi
 
       if (await ctx.SaveAllAsync())
       {
-        return Results.CreatedAtRoute("GetOneProject", new { id = model.Id }, model);
+        return Results.CreatedAtRoute("GetOneCustomerProject", new { id = model.Id }, model);
       }
 
       return Results.BadRequest("Failed to save new Project.");

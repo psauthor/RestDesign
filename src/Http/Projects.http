@@ -3,12 +3,12 @@ Accept: application/json
 
 ###
 
-GET {{$projectUrl}}/api/projects/27
+GET {{$projectUrl}}/api/projects/22
 Accept: application/json
 
 ### 
 
-POST {{$projectUrl}}/apiprojects
+POST {{$projectUrl}}/api/projects
 Content-Type: application/json
 Accept: application/json
 
@@ -21,12 +21,12 @@ Accept: application/json
 
 ###
 
-PUT {{$projectUrl}}/api/projects/27
+PUT {{$projectUrl}}/api/projects/26
 Accept: application/json
 Content-Type: application/json
 
 {
-  "id": 27,
+  "id": 26,
   "projectName": "Website Creation",
   "startDate": "2023-02-14T07:08:55.0568344-05:00",
   "endDate": "2024-03-01",
@@ -34,5 +34,5 @@ Content-Type: application/json
 }
 ###
 
-DELETE {{$projectUrl}}/api/projects/27
+DELETE {{$projectUrl}}/api/projects/26
 Accept: application/json
