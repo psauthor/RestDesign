@@ -12,7 +12,7 @@ public class ProjectsApi : IApi
 {
   public void Register(IEndpointRouteBuilder builder)
   {
-    var group = builder.MapGroup("/api/projects")
+    var group = builder.MapGroup("/api/customers/{customerId:int}/projects")
       .AddFluentValidationAutoValidation();
 
     group.MapGet("", GetAll);
@@ -24,9 +24,10 @@ public class ProjectsApi : IApi
   }
 
   // Get All
-  public static async Task<IResult> GetAll(BillingContext ctx)
+  public static async Task<IResult> GetAll(BillingContext ctx, int customerId)
   {
     var result = await ctx.Projects
+      .Where(p => p.CustomerId == customerId)
       .OrderBy(e => e.ProjectName)
       .ToListAsync();
 
@@ -34,20 +35,27 @@ public class ProjectsApi : IApi
   }
 
   // Get One
-  public static async Task<IResult> GetOne(BillingContext ctx, int id)
+  public static async Task<IResult> GetOne(BillingContext ctx, int customerId, int id)
   {
     var result = await ctx.Projects.FindAsync(id);
 
     if (result is null) return Results.NotFound("No Project with that id Exists");
 
+    if (result.CustomerId != customerId) return Results.BadRequest("Customer and Project are not related.");
+
     return Results.Ok(result);
   }
 
   // Create
-  public static async Task<IResult> Post(BillingContext ctx, Project model)
+  public static async Task<IResult> Post(BillingContext ctx, int customerId, Project model)
   {
     try
     {
+      var customer = await ctx.Customers.FindAsync(customerId);
+
+      if (customer is null) return Results.NotFound();
+
+      model.CustomerId = customerId;
       ctx.Add(model);
 
       if (await ctx.SaveAllAsync())
@@ -64,13 +72,15 @@ public class ProjectsApi : IApi
   }
 
   // Update
-  public static async Task<IResult> Update(BillingContext ctx, int id, Project model)
+  public static async Task<IResult> Update(BillingContext ctx, int customerId, int id, Project model)
   {
     try
     {
       var old = await ctx.Projects.FindAsync(id);
 
       if (old is null) return Results.NotFound("No Project with that id Exists");
+
+      if (old.CustomerId != customerId) return Results.BadRequest("Customer and Project are not related.");
 
       model.Adapt(old);
 
@@ -88,13 +98,15 @@ public class ProjectsApi : IApi
   }
 
   // Delete
-  public static async Task<IResult> Delete(BillingContext ctx, int id)
+  public static async Task<IResult> Delete(BillingContext ctx, int customerId, int id)
   {
     try
     {
       var old = await ctx.Projects.FindAsync(id);
 
       if (old is null) return Results.NotFound("No Project with that id Exists");
+
+      if (old.CustomerId != customerId) return Results.BadRequest("Customer and Project are not related.");
 
       ctx.Remove(old);
 

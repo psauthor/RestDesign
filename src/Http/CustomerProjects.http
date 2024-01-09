@@ -1,14 +1,14 @@
-GET {{$projectUrl}}/api/projects
+GET {{$projectUrl}}/api/customers/9/projects
 Accept: application/json
 
 ###
 
-GET {{$projectUrl}}/api/projects/27
+GET {{$projectUrl}}/api/customers/9/projects/27
 Accept: application/json
 
 ### 
 
-POST {{$projectUrl}}/apiprojects
+POST {{$projectUrl}}/api/customers/9/projects
 Content-Type: application/json
 Accept: application/json
 
@@ -21,7 +21,7 @@ Accept: application/json
 
 ###
 
-PUT {{$projectUrl}}/api/projects/27
+PUT {{$projectUrl}}/api/customers/9/projects/27
 Accept: application/json
 Content-Type: application/json
 
@@ -34,5 +34,5 @@ Content-Type: application/json
 }
 ###
 
-DELETE {{$projectUrl}}/api/projects/27
+DELETE {{$projectUrl}}/api/customers/9/projects/27
 Accept: application/json
