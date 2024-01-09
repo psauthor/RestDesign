@@ -1,0 +1,52 @@
+GET {{$projectUrl}}/api/customers
+Accept: application/json
+
+###
+
+GET {{$projectUrl}}/api/customers/25433
+Accept: application/json
+
+### 
+
+POST {{$projectUrl}}/api/customers
+Content-Type: application/json
+Accept: application/json
+
+{
+  "companyName": "Wilder Minds LLC",
+  "contact": "Shawn Wildermuth",
+  "phoneNumber": "404-555-1212",
+  "email": "shawn@aol.com",
+  "addressLine1": "100 Main Street",
+  "addressLine2": "Suite 500",
+  "addressLine3": null,
+  "city": "Atlanta",
+  "stateProvince": "Georgia",
+  "postalCode": "30303-3333",
+  "country": "USA"
+}
+
+###
+
+PUT {{$projectUrl}}/api/customers/25451
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 25451,
+  "companyName": "Wilder Minds LLC",
+  "contact": "Shawn Wildermuth",
+  "phoneNumber": "404-555-1212",
+  "email": "shawn@aol.com",
+  "addressLine1": "100 Main Street",
+  "addressLine2": "Suite 500",
+  "addressLine3": "2nd Floor",
+  "city": "Atlanta",
+  "stateProvince": "GA",
+  "postalCode": "30303-2222",
+  "country": "USA"
+}
+###
+
+DELETE {{$projectUrl}}/api/customers/25451
+Accept: application/json

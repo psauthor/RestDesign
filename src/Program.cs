@@ -8,6 +8,8 @@ using DesigningApis.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Asp.Versioning;
+using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,10 @@ svcs.AddCors(setup =>
     cfg.WithOrigins("https://localhost:5002");
   });
 });
+
+svcs.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+svcs.AddFluentValidationAutoValidation();
 
 svcs.AddApiVersioning(cfg =>
 {
