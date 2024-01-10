@@ -1,7 +1,9 @@
 ﻿using Asp.Versioning;
 using Mapster;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using RestDesign.Data.Entities;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using WilderMinds.MinimalApiDiscovery;
@@ -25,6 +27,7 @@ public class EmployeesApi : IApi
   }
 
   // Get All
+  [HttpCacheExpiration(NoStore = true, MaxAge = 1)]
   public static async Task<IResult> GetAll(BillingContext ctx)
   {
     var result = await ctx.Employees
@@ -35,6 +38,7 @@ public class EmployeesApi : IApi
   }
 
   // Get One
+  [HttpCacheExpiration(NoStore = true, MaxAge = 1)]
   public static async Task<IResult> GetOne(BillingContext ctx, int id)
   {
     var result = await ctx.Employees.FindAsync(id);

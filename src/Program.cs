@@ -17,7 +17,6 @@ var svcs = builder.Services;
 svcs.AddDbContext<BillingContext>();
 
 svcs.AddHttpCacheHeaders(opt => opt.MaxAge = 600);
-svcs.AddResponseCaching();
 
 svcs.AddCors(setup =>
 {
