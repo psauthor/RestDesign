@@ -1,5 +1,5 @@
 GET {{$projectUrl}}/api/customers
-Accept: application/json
+Accept: text/xml
 
 ###
 

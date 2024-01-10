@@ -18,7 +18,7 @@ public class CustomersApi : IApi
       .HasDeprecatedApiVersion(new ApiVersion(1, 0))
       .AddFluentValidationAutoValidation();
 
-    group.MapGet("", GetAll);
+    group.MapGet("", GetAll).Produces<List<Customer>>(200, "application/json", "text/xml");
     group.MapGet("{id:int}", GetOne).WithName("GetOneCustomer");
     group.MapPost("", Post);
     group.MapPut("{id:int}", Update);
@@ -29,29 +29,23 @@ public class CustomersApi : IApi
   // Get All
   public static async Task<IResult> GetAll(BillingContext ctx, bool includeProjects = false)
   {
-    List<Customer> result;
+    IQueryable<Customer> query = includeProjects ? ctx.Customers.Include(c => c.Projects) : ctx.Customers;
 
-    if (includeProjects)
-    {
-      result = await ctx.Customers
-        .Include(c => c.Projects)
+    var result = await query
         .OrderBy(c => c.CompanyName)
         .ToListAsync();
-    }
-    else
-    {
-      result = await ctx.Customers
-        .OrderBy(c => c.CompanyName)
-        .ToListAsync();
-    }
 
     return Results.Ok(result);
   }
 
   // Get One
-  public static async Task<IResult> GetOne(BillingContext ctx, int id)
+  public static async Task<IResult> GetOne(BillingContext ctx, int id, bool includeProjects = false)
   {
-    var result = await ctx.Customers.FindAsync(id);
+    IQueryable<Customer> query = includeProjects ? ctx.Customers.Include(c => c.Projects) : ctx.Customers;
+
+    var result = await query
+      .Where(c => c.Id == id)
+      .FirstOrDefaultAsync();
 
     if (result is null) return Results.NotFound("No customer with that id Exists");
 

@@ -1,0 +1,42 @@
+GET {{$projectUrl}}/api/projects/10/tickets
+Accept: application/json
+
+###
+
+GET {{$projectUrl}}/api/projects/10/tickets/1
+Accept: application/json
+
+### 
+
+POST {{$projectUrl}}/api/projects/10/tickets
+Content-Type: application/json
+Accept: application/json
+
+{
+  "employeeId": 2,
+  "hours": 1.75,
+  "billingRate": 235,
+  "date": "2024-01-02",
+  "projectId": 10,
+  "workPerformed": "Just reviewing the documentation"
+}
+
+###
+
+PUT {{$projectUrl}}/api/projects/10/tickets/102
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 102,
+  "employeeId": 3,
+  "hours": 1.75,
+  "billingRate": 235,
+  "date": "2024-01-02",
+  "projectId": 10,
+  "workPerformed": "Just reviewing the documentation"
+}
+###
+
+DELETE {{$projectUrl}}/api/projects/10/tickets/101
+Accept: application/json

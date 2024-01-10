@@ -8,6 +8,7 @@ using Asp.Versioning;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using System.Reflection;
 using RestDesign.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,11 @@ svcs.AddApiVersioning(cfg =>
     new AcceptHeaderApiVersionReader(),
     new QueryStringApiVersionReader("v"),
     new HeaderApiVersionReader("X-Version"));
+});
+
+svcs.ConfigureHttpJsonOptions(opt =>
+{
+  opt.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
 //svcs.AddControllers(cfg =>
