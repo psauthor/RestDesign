@@ -13,16 +13,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: wmcontainers.azurecr.io
+        username: ${{ secrets.CONTAINER_USERNAME }}
+        password: ${{ secrets.CONTAINER_PASSWORD }}
+   
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag restdesign:latest
-
       
     - name: Tag the image
       working-directory: ./src
-      run: docker tag restdesign:latest wilderminds.azurecr.io/restdesign:latest
+      run: docker tag restdesign:latest wmcontainers.azurecr.io/restdesign:latest
 
     - name: Push the Image
       working-directory: ./src
-      run: docker push wilderminds.azurecr.io/restdesign:latest
+      run: docker push wmcontainers.azurecr.io/restdesign:latest
       
