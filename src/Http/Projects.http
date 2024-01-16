@@ -3,6 +3,11 @@ Accept: application/json
 
 ###
 
+GET {{$projectUrl}}/api/projects
+Accept: application/xml
+
+###
+
 GET {{$projectUrl}}/api/projects/22
 Accept: application/json
 

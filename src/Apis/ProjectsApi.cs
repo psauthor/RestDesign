@@ -1,4 +1,6 @@
-﻿using Asp.Versioning;
+﻿using System.IO;
+using System.Xml.Serialization;
+using Asp.Versioning;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -8,8 +10,12 @@ using WilderMinds.MinimalApiDiscovery;
 
 namespace RestDesign.Apis;
 
+// Add XML Accept Header support
+
 public class ProjectsApi : IApi
 {
+  const string XmlContentType = "application/xml";
+
   public void Register(IEndpointRouteBuilder builder)
   {
     var group = builder.MapGroup("/api/projects")
@@ -24,11 +30,24 @@ public class ProjectsApi : IApi
   }
 
   // Get All
-  public static async Task<IResult> GetAll(BillingContext ctx)
+  public static async Task<IResult> GetAll(HttpContext httpContext, BillingContext ctx)
   {
+
     var result = await ctx.Projects
       .OrderBy(e => e.ProjectName)
       .ToListAsync();
+
+    if (httpContext.Request.Headers.Accept.Contains(XmlContentType))
+    {
+      var serializer = new XmlSerializer(result.GetType());
+      using var writer = new StringWriter();
+      serializer.Serialize(writer, result);
+      var xml = writer.ToString();
+
+      httpContext.Response.ContentType = XmlContentType;
+      await httpContext.Response.WriteAsync(xml);
+      return Results.Ok();
+    }
 
     return Results.Ok(result);
   }

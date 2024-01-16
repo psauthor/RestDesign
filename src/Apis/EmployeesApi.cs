@@ -10,6 +10,8 @@ using WilderMinds.MinimalApiDiscovery;
 
 namespace RestDesign.Apis;
 
+// TODO support wrapper via query string
+
 public class EmployeesApi : IApi
 {
   public void Register(IEndpointRouteBuilder builder)

@@ -1,21 +1,28 @@
 ﻿using Asp.Versioning;
 using Mapster;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using RestDesign.Data.Entities;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using WilderMinds.MinimalApiDiscovery;
 
 namespace RestDesign.Apis;
 
+// TODO Add Paging
+
 public class TicketsApi : IApi
 {
   public void Register(IEndpointRouteBuilder builder)
   {
     var group = builder.MapGroup("/api/tickets")
-      .AddFluentValidationAutoValidation();
+      .AddFluentValidationAutoValidation()
+      .CacheOutput();
 
-    group.MapGet("", GetAll);
+
+    var theGet = group.MapGet("", GetAll);
+
     group.MapGet("{id:int}", GetOne).WithName("GetOneTicket");
     group.MapPost("", Post);
     group.MapPut("{id:int}", Update);
@@ -24,15 +31,49 @@ public class TicketsApi : IApi
   }
 
   // Get All
-  public static async Task<IResult> GetAll(BillingContext ctx)
+  //[HttpCacheIgnore]
+  [HttpCacheExpiration(CacheLocation = CacheLocation.Private, MaxAge = 99999)]
+  [HttpCacheValidation(MustRevalidate = true)]
+  public static async Task<IResult> GetAll(HttpContext http, 
+    BillingContext ctx, 
+    int page = 1, 
+    int pageSize = 10, 
+    bool useHeaders = false)
   {
-    var result = await ctx.Tickets
+    var results = await ctx.Tickets
       .Include(t => t.Employee)
       .Include(t => t.Project)
       .OrderBy(e => e.Date)
+      .Skip(pageSize * (page - 1))
+      .Take(pageSize)
       .ToListAsync();
 
-    return Results.Ok(result);
+    var totalCount = await ctx.Tickets.CountAsync();
+    var prevPage = page > 1 ? $"/api/tickets?page={page - 1}&pageSize={pageSize}" : "";
+    var nextPage = $"/api/tickets?page={page + 1}&pageSize={pageSize}";
+
+    if (useHeaders)
+    {
+      http.Response.Headers["X-Pagination-TotalCount"] = $"{totalCount}";
+      http.Response.Headers["X-Pagination-PreviousPage"] = prevPage;
+      http.Response.Headers["X-Pagination-NextPage"] = nextPage;
+      http.Response.Headers["X-Pagination-CurrentPage"] = $"{page}";
+      http.Response.Headers["X-Pagination-PageSize"] = $"{pageSize}";
+
+      return Results.Ok(results);
+    }
+    else
+    {
+      return Results.Ok(new
+      {
+        TotalCount = totalCount,
+        PrevPage = prevPage,
+        NextPage = nextPage,
+        CurrentPage = page,
+        PageSize = pageSize,
+        Results = results,
+      });
+    }
   }
 
   // Get One

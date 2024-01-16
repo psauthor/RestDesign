@@ -16,7 +16,7 @@ var svcs = builder.Services;
 
 svcs.AddDbContext<BillingContext>();
 
-svcs.AddHttpCacheHeaders(opt => opt.MaxAge = 600);
+svcs.AddHttpCacheHeaders();
 
 svcs.AddCors(setup =>
 {
@@ -47,6 +47,9 @@ svcs.AddApiVersioning(cfg =>
     new QueryStringApiVersionReader("v"),
     new HeaderApiVersionReader("X-Version"));
 });
+
+
+svcs.AddOutputCache(cfg => cfg.AddBasePolicy(bldr => bldr.Expire(TimeSpan.FromSeconds(2))));
 
 svcs.ConfigureHttpJsonOptions(opt =>
 {
@@ -79,11 +82,13 @@ app.UseCors(cfg =>
 });
 
 app.UseStaticFiles();
-app.UseResponseCaching();
-app.UseHttpCacheHeaders();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseRouting();
+
+app.UseHttpCacheHeaders();
 
 app.MapRazorPages();
 app.MapApis();
