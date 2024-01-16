@@ -1,0 +1,28 @@
+name: Build Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag restdesign:latest
+
+      
+    - name: Tag the image
+      working-directory: ./src
+      run: docker tag restdesign:latest wilderminds.azurecr.io/restdesign:latest
+
+    - name: Push the Image
+      working-directory: ./src
+      run: docker push wilderminds.azurecr.io/restdesign:latest
+      
