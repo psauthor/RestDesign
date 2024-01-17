@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using RestDesign.Data.Entities;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
+using Swashbuckle.AspNetCore.Annotations;
 using WilderMinds.MinimalApiDiscovery;
 
 namespace RestDesign.Apis;
@@ -18,7 +19,12 @@ public class TicketsApi : IApi
   {
     var group = builder.MapGroup("/api/tickets")
       .AddFluentValidationAutoValidation()
-      .CacheOutput();
+      .CacheOutput()
+      .WithMetadata(
+        new SwaggerOperationAttribute(
+          summary: "Tickets",
+          description: "Time tickets for invoicing Customers."));
+
 
 
     var theGet = group.MapGet("", GetAll);

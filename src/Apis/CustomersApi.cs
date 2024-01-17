@@ -3,6 +3,7 @@ using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
+using Swashbuckle.AspNetCore.Annotations;
 using WilderMinds.MinimalApiDiscovery;
 
 namespace RestDesign.Apis;
@@ -16,9 +17,15 @@ public class CustomersApi : IApi
     var group = version.MapGroup("/api/customers")
       .HasApiVersion(new ApiVersion(2, 0))
       .HasDeprecatedApiVersion(new ApiVersion(1, 0))
-      .AddFluentValidationAutoValidation();
+      .AddFluentValidationAutoValidation()
+      .WithMetadata(
+        new SwaggerOperationAttribute(
+          summary: "Customers",
+          description: "Customers that we can apply projects and tickets."));
 
-    group.MapGet("", GetAll).Produces<List<Customer>>(200, "application/json", "text/xml");
+
+    group.MapGet("", GetAll)
+      .Produces<List<Customer>>(200, "application/json", "text/xml");
     group.MapGet("{id:int}", GetOne).WithName("GetOneCustomer");
     group.MapPost("", Post);
     group.MapPut("{id:int}", Update);

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using RestDesign.Data.Entities;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
+using Swashbuckle.AspNetCore.Annotations;
 using WilderMinds.MinimalApiDiscovery;
 
 namespace RestDesign.Apis;
@@ -13,7 +14,12 @@ public class CustomerProjectsApi : IApi
   public void Register(IEndpointRouteBuilder builder)
   {
     var group = builder.MapGroup("/api/customers/{customerId:int}/projects")
-      .AddFluentValidationAutoValidation();
+      .AddFluentValidationAutoValidation()
+      .WithMetadata(
+        new SwaggerOperationAttribute(
+          summary: "Customer's Projects",
+          description: "Projects that are for a particular customer."));
+    
 
     group.MapGet("", GetAll);
     group.MapGet("{id:int}", GetOne).WithName("GetOneCustomerProject");

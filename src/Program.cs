@@ -65,7 +65,10 @@ svcs.ConfigureHttpJsonOptions(opt =>
 svcs.AddRazorPages();
 
 svcs.AddEndpointsApiExplorer();
-svcs.AddSwaggerGen();
+svcs.AddSwaggerGen(o =>
+{
+  o.EnableAnnotations();
+});
 
 var app = builder.Build();
 

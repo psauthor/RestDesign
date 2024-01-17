@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using RestDesign.Data.Entities;
 using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
+using Swashbuckle.AspNetCore.Annotations;
 using WilderMinds.MinimalApiDiscovery;
 
 namespace RestDesign.Apis;
@@ -18,7 +19,12 @@ public class EmployeesApi : IApi
   {
     var group = builder.MapGroup("/api/employees")
       .RequireCors("Prevent")
-      .AddFluentValidationAutoValidation();
+      .AddFluentValidationAutoValidation()
+      .WithMetadata(
+        new SwaggerOperationAttribute(
+          summary: "Employees",
+          description: "Employees of the company that can create time tickets."));
+
 
     group.MapGet("", GetAll);
     group.MapGet("{id:int}", GetOne).WithName("GetOneEmployee");

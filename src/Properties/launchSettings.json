@@ -9,7 +9,8 @@
     },
     "DesigningApis": {
       "commandName": "Project",
-      "launchUrl": "api/data/flaky",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
