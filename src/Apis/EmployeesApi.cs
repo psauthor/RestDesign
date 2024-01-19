@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Mapster;
 using Marvin.Cache.Headers;
+using Marvin.Cache.Headers.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +27,11 @@ public class EmployeesApi : IApi
           description: "Employees of the company that can create time tickets."));
 
 
-    group.MapGet("", GetAll);
-    group.MapGet("{id:int}", GetOne).WithName("GetOneEmployee");
+    group.MapGet("", GetAll)
+      .AddHttpCacheExpiration(maxAge: 1, noStore: true);
+    group.MapGet("{id:int}", GetOne)
+      .WithName("GetOneEmployee")
+      .AddHttpCacheExpiration(maxAge: 1, noStore: true);
     group.MapPost("", Post);
     group.MapPut("{id:int}", Update);
     group.MapDelete("{id:int}", Delete);
@@ -35,7 +39,6 @@ public class EmployeesApi : IApi
   }
 
   // Get All
-  [HttpCacheExpiration(NoStore = true, MaxAge = 1)]
   public static async Task<IResult> GetAll(BillingContext ctx)
   {
     var result = await ctx.Employees
@@ -46,7 +49,6 @@ public class EmployeesApi : IApi
   }
 
   // Get One
-  [HttpCacheExpiration(NoStore = true, MaxAge = 1)]
   public static async Task<IResult> GetOne(BillingContext ctx, int id)
   {
     var result = await ctx.Employees.FindAsync(id);

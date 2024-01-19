@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Mapster;
 using Marvin.Cache.Headers;
+using Marvin.Cache.Headers.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +30,9 @@ public class TicketsApi : IApi
 
     var theGet = group.MapGet("", GetAll);
 
-    group.MapGet("{id:int}", GetOne).WithName("GetOneTicket");
+    group.MapGet("{id:int}", GetOne).WithName("GetOneTicket")
+      .AddHttpCacheExpiration(cacheLocation: CacheLocation.Private, maxAge: 99999)
+      .AddHttpCacheValidation(mustRevalidate: true);
     group.MapPost("", Post);
     group.MapPut("{id:int}", Update);
     group.MapDelete("{id:int}", Delete);
@@ -37,9 +40,6 @@ public class TicketsApi : IApi
   }
 
   // Get All
-  //[HttpCacheIgnore]
-  [HttpCacheExpiration(CacheLocation = CacheLocation.Private, MaxAge = 99999)]
-  [HttpCacheValidation(MustRevalidate = true)]
   public static async Task<IResult> GetAll(HttpContext http, 
     BillingContext ctx, 
     int page = 1, 
