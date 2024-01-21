@@ -16,6 +16,8 @@ var svcs = builder.Services;
 
 svcs.AddDbContext<BillingContext>();
 
+svcs.AddExceptionHandler<RestDesignExceptionHandler>();
+
 svcs.AddHttpCacheHeaders();
 
 svcs.AddCors(setup =>
@@ -71,6 +73,9 @@ svcs.AddSwaggerGen(o =>
 });
 
 var app = builder.Build();
+
+// Using empty configuration to force it to use IExceptionHandler
+app.UseExceptionHandler(_ => { });
 
 if (app.Environment.IsDevelopment())
 {
