@@ -32,7 +32,9 @@ public class RestDesignExceptionHandler : IExceptionHandler
         error = new
         {
           Message = "Server Error. Please contact support.",
-          MessageKey = "exceptionThrownServer"
+          MessageKey = "exceptionThrownServer",
+          StackTrace = exception.StackTrace,
+          ExceptionType = exception.GetType().Name
         };
       }
       else
