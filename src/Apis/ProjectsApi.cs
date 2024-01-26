@@ -15,7 +15,7 @@ namespace RestDesign.Apis;
 
 public class ProjectsApi : IApi
 {
-  const string XmlContentType = "application/xml";
+  static readonly string[] XmlContentTypes = { "application/xml", "text/xml" };
 
   public void Register(IEndpointRouteBuilder builder)
   {
@@ -42,14 +42,15 @@ public class ProjectsApi : IApi
       .OrderBy(e => e.ProjectName)
       .ToListAsync();
 
-    if (httpContext.Request.Headers.Accept.Contains(XmlContentType))
+    var contentType = httpContext.Request.Headers.Accept.FirstOrDefault(h => XmlContentTypes.Contains(h));
+    if (contentType is not null)
     {
       var serializer = new XmlSerializer(result.GetType());
       using var writer = new StringWriter();
       serializer.Serialize(writer, result);
       var xml = writer.ToString();
 
-      httpContext.Response.ContentType = XmlContentType;
+      httpContext.Response.ContentType = contentType;
       await httpContext.Response.WriteAsync(xml);
       return Results.Ok();
     }
