@@ -139,17 +139,12 @@ public class TicketsApi : IApi
 
       model.Adapt(old);
 
-      if (await ctx.SaveAllAsync())
-      {
-        var result = await ctx.Tickets
-          .Include(t => t.Project)
-          .Include(t => t.Employee)
-          .Where(t => t.Id == model.Id).FirstAsync();
+      var result = await ctx.Tickets
+        .Include(t => t.Project)
+        .Include(t => t.Employee)
+        .Where(t => t.Id == model.Id).FirstAsync();
 
-        return Results.Ok(result);
-      }
-
-      return Results.BadRequest("Failed to save new Ticket.");
+      return Results.Ok(result);
     }
     catch (Exception ex)
     {

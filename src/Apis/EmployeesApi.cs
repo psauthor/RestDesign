@@ -89,12 +89,8 @@ public class EmployeesApi : IApi
 
       model.Adapt(old);
 
-      if (await ctx.SaveAllAsync())
-      {
-        return Results.Ok(old);
-      }
-
-      return Results.BadRequest("Failed to save new employee.");
+      await ctx.SaveAllAsync();
+      return Results.Ok(old);
     }
     catch (Exception ex)
     {

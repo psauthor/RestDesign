@@ -19,7 +19,7 @@ public class CustomerProjectsApi : IApi
         new SwaggerOperationAttribute(
           summary: "Customer's Projects",
           description: "Projects that are for a particular customer."));
-    
+
 
     group.MapGet("", GetAll);
     group.MapGet("{id:int}", GetOne).WithName("GetOneCustomerProject");
@@ -90,12 +90,9 @@ public class CustomerProjectsApi : IApi
 
       model.Adapt(old);
 
-      if (await ctx.SaveAllAsync())
-      {
-        return Results.Ok(old);
-      }
+      await ctx.SaveAllAsync();
 
-      return Results.BadRequest("Failed to save new Project.");
+      return Results.Ok(old);
     }
     catch (Exception ex)
     {

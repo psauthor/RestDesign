@@ -90,12 +90,9 @@ public class CustomersApi : IApi
 
       model.Adapt(old);
 
-      if (await ctx.SaveAllAsync())
-      {
-        return Results.Ok(old);
-      }
+      await ctx.SaveAllAsync();
 
-      return Results.BadRequest("Failed to save new customer.");
+      return Results.Ok(old);
     }
     catch (Exception ex)
     {
