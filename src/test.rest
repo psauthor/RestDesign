@@ -5,20 +5,14 @@ Accept: application/json
 
 ###
 
-GET http://localhost:5000/api/customers
+GET http://localhost:5000/api/customers?v=1.0
 Accept: application/json
 
 ###
 
-GET {{root}}/regions 
-Accept: application/json
+GET http://localhost:5000/api/customers/9
+Accept: application/vnd.design.rest-v2+json
+#X-Version: 2.0
+
 
 ###
-
-GET {{root}}/sites
-Accept: application/json
-
-###
-
-GET {{root}}/sites/1457 
-Accept: application/json

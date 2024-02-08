@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Asp.Versioning.Builder;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -23,10 +24,13 @@ public class CustomersApi : IApi
           summary: "Customers",
           description: "Customers that we can apply projects and tickets."));
 
-
     group.MapGet("", GetAll)
       .Produces<List<Customer>>(200, "application/json", "text/xml");
-    group.MapGet("{id:int}", GetOne).WithName("GetOneCustomer");
+    group.MapGet("{id:int}", GetOne)
+      .WithName("GetOneCustomer")
+      .MapToApiVersion(new ApiVersion(2.0));
+    group.MapGet("{id:int}", GetOne10)
+      .MapToApiVersion(new ApiVersion(1.0));
     group.MapPost("", Post);
     group.MapPut("{id:int}", Update);
     group.MapDelete("{id:int}", Delete);
@@ -58,6 +62,26 @@ public class CustomersApi : IApi
 
     return Results.Ok(result);
   }
+
+  // Get One
+  public static async Task<IResult> GetOne10(BillingContext ctx, int id)
+  {
+    var result = await ctx.Customers
+      .Where(c => c.Id == id)
+      .Select(c => new
+      {
+        c.Id,
+        c.CompanyName,
+        c.Contact,
+        c.PhoneNumber
+      })
+      .FirstOrDefaultAsync();
+
+    if (result is null) return Results.NotFound("No customer with that id Exists");
+
+    return Results.Ok(result);
+  }
+
 
   // Create
   public static async Task<IResult> Post(BillingContext ctx, Customer model)

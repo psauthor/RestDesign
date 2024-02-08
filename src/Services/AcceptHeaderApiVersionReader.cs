@@ -14,7 +14,7 @@ namespace RestDesign.Services
   public class AcceptHeaderApiVersionReader : IApiVersionReader
   {
     // looking for application/vnd.wilderminds.arest-v2+json
-    private const string Pattern = @".wilderminds.arest-v(\d+(\.\d+)?)\+\S+$";
+    private const string Pattern = @".design.rest-v(\d+(\.\d+)?)\+\S+$";
 
     public void AddParameters(IApiVersionParameterDescriptionContext context)
     {
