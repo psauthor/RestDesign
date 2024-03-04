@@ -17,7 +17,9 @@ public class TicketFaker : Faker<Ticket>
     .RuleFor(t => t.WorkPerformed, f => f.Hacker.Phrase())
     .RuleFor(t => t.EmployeeId, f => _employees.ElementAt(f.Random.Number(0, 9)).Id)
     .RuleFor(t => t.ProjectId, f => _projects.ElementAt(f.Random.Number(0, 24)).Id)
-    .RuleFor(t => t.BillingRate, f => _employees.ElementAt(f.Random.Number(0, 9)).BillingRate);
+    .RuleFor(t => t.BillingRate, f => _employees.ElementAt(f.Random.Number(0, 9)).BillingRate)
+    .RuleFor(t => t.Date, (Faker f) => f.Date.Past());
+;
   }
 
   public static List<Ticket> Generate() => new TicketFaker().Generate(100);
