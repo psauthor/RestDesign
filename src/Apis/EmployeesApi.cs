@@ -19,7 +19,7 @@ public class EmployeesApi : IApi
   public void Register(IEndpointRouteBuilder builder)
   {
     var group = builder.MapGroup("/api/employees")
-      .RequireCors("Prevent")
+      //.RequireCors("Prevent")
       .AddFluentValidationAutoValidation()
       .WithMetadata(
         new SwaggerOperationAttribute(
